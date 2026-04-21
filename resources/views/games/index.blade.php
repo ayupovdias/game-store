@@ -16,29 +16,33 @@
 <div class="container">
 
     @include("layout.header")
-
-    <div class="mt-3 d-flex align-items-center">
-        <img src="images/poster.png" class="w-25 h-50">
-        <button style="margin-top:-450px" class="btn btn-outline-danger x">X</button>
-        <div>
-            <div class="row mt-3">
-                <h3 class="fw-bold col-1">ID</h3>
-                <h3 class="fw-bold col-2">Title</h3>
-                <h3 class="fw-bold col-6">Description</h3>
-                <h3 class="fw-bold col-2">Genres</h3>
-                <h3 class="fw-bold col-1">Price</h3>
-            </div>
-            @foreach($games as $game)
-                <div class="row my-2">
-                    <h4 class="col-1">{{$game->id}}</h4>
-                    <h4 class="col-2">{{$game->title}}</h4>
-                    <h4 class="col-6">{{$game->description}}</h4>
-                    <h4 class="col-2">{{$game->genres}}</h4>
-                    <h4 class="col-1">{{$game->price}}</h4>
-                </div>
-            @endforeach
-        </div>
+    <div class="row mt-3">
+        <h3 class="fw-bold col-1">ID</h3>
+        <h3 class="fw-bold col-2">Title</h3>
+        <h3 class="fw-bold col-4">Description</h3>
+        <h3 class="fw-bold col-2">Genres</h3>
+        <h3 class="fw-bold col-1">Price</h3>
+        <h3 class="fw-bold col-2">Buttons</h3>
     </div>
+    @foreach($games as $game)
+        <div class="row my-2">
+            <h4 class="col-1">{{$game->id}}</h4>
+            <h4 class="col-2">{{$game->title}}</h4>
+            <h4 class="col-4">{{$game->description}}</h4>
+            <h4 class="col-2">{{$game->genres}}</h4>
+            <h4 class="col-1">{{$game->price}}</h4>
+            <div class="col-2">
+                <a href="{{route('games.show', $game->id)}}" class="btn btn-primary">Details</a>
+                <a href="{{route('games.edit', $game->id)}}" class="btn btn-warning">Edit</a>
+                <form method="post" class="d-inline" action="{{route('games.destroy', $game)}}" onsubmit="return agreement()">
+                    @method("DELETE")
+                    @csrf
+                    <input type="submit" value="Delete" class="btn btn-danger"  >
+                </form>
+            </div>
+        </div>
+    @endforeach
+
     @include("layout.footer")
 </div>
 
@@ -48,12 +52,10 @@
         crossorigin="anonymous">
 </script>
 <script>
-    $(document).ready(function () {
-        $(".x").click(function () {
-            $("img").hide("fast")
-            $(this).slideUp("fast")
-        })
-    })
+    function agreement() {
+        return confirm("Are you sure to delete this game?")
+    }
+
 </script>
 
 </body>
