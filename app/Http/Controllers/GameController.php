@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Genre;
+
 class GameController extends Controller
 {
     /**
@@ -11,7 +14,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games=Game::all();
+        $games = Game::all();
         return view("games.index", compact("games"));
     }
 
@@ -20,7 +23,8 @@ class GameController extends Controller
      */
     public function create()
     {
-        return view("games.create");
+        $genres = Genre::all();
+        return view("games.create")->with("genres", $genres);
     }
 
     /**
@@ -28,20 +32,19 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
-            'title'=>['required','max:255'],
-            'description'=>['required'],
-            'genres'=>['required', 'max:255'],
-            'price'=>['required', 'numeric'],
-         ]);
-         Game::create([
-             'title'=>$request->input('title'),
-             'description'=>$request->input('description'),
-             'genres'=>$request->input('genres'),
-             'price'=>$request->input('price'),
-         ]);
-
-         return redirect()->route("games.index");
+        $validatedData = $request->validate([
+            'title' => ['required', 'max:255'],
+            'description' => ['required'],
+            'price' => ['required', 'numeric'],
+            'image' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'genre_id' => ['integer']
+        ]);
+        if ($request->hasFile("image")) {
+            $path = $request->file('image')->store('images/games', 'public');
+            $validatedData['image'] = $path;
+        }
+        Game::create($validatedData);
+        return redirect()->route("games.index")->with("created", "The game was created successfully");
     }
 
     /**
@@ -49,7 +52,7 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-       return view("games.show", compact("game"));
+        return view("games.show", compact("game"));
     }
 
     /**
@@ -57,27 +60,28 @@ class GameController extends Controller
      */
     public function edit(Game $game)
     {
-        return view("games.edit", compact("game"));
+        $genres = Genre::all();
+        return view("games.edit", compact("game", "genres"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,Game $game)
+    public function update(Request $request, Game $game)
     {
-        $request->validate([
-           "title"=>"required|min:5|max:255",
-            "description"=>"required|min:5",
-            "genres"=>"required|min:3|max:255",
-            "price"=>"required|numeric"
+        $validatedData = $request->validate([
+            'title' => ['required', 'max:255'],
+            'description' => ['required'],
+            'price' => ['required', 'numeric'],
+            'image' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'genre_id' => ['integer']
         ]);
-        $game->update([
-            "title"=>$request->input("title"),
-            "description"=>$request->input("description"),
-            "genres"=>$request->input("genres"),
-            "price"=>$request->input("price")
-        ]);
-        return redirect(route('games.show',$game));
+        if ($request->hasFile("image")) {
+            $path = $request->file('image')->store('images/games', 'public');
+            $validatedData['image'] = $path;
+        }
+        $game->update($validatedData);
+        return redirect(route('games.show', $game))->with("updated", "The game was edited successfully");
     }
 
     /**
@@ -86,6 +90,6 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         $game->delete();
-        return redirect(route('games.index'));
+        return redirect(route('games.index'))->with("deleted", "The game was deleted successfully");
     }
 }

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create a game Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
-
-    <form method="post" action="{{route('games.store')}}" class="w-50 mx-auto border rounded-5 mt-5 p-3">
+@extends('layouts.app')
+@section("content")
+    <form method="post" action="{{route('games.store')}}" class="w-50 mx-auto border rounded-5 mt-5 p-3" enctype="multipart/form-data">
         <h3 class="fw-bold text-center">Create a game</h3>
         @if($errors->any())
             @foreach($errors->all() as $error)
@@ -29,23 +21,26 @@
             </label>
         </div>
         <div class="row">
-            <label class="label-control">Genres
-                <input class="form-control my-1" name="genres">
-            </label>
+             <label class="label-control">Genre
+             <select class="form-control" name="genre_id">
+                 @foreach($genres as $genre)
+                     <option value="{{$genre->id}}">{{$genre->name}}</option>
+                 @endforeach
+             </select>
+             </label>
         </div>
         <div class="row">
             <label class="label-control">Price
                 <input class="form-control my-1" name="price">
             </label>
         </div>
-
+        <div class="row">
+            <label class="label-control">File
+                <input class="form-control" type="file" name="image" required>
+            </label>
+        </div>
         <button class="btn btn-success mt-2">Create</button>
         <a href="{{route('games.index')}}" class="btn btn-primary mt-2 float-end">Back</a>
 
     </form>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+@endsection
