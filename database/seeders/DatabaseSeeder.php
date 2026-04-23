@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Genre;
+use App\Models\Game;
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         Genre::create(["name"=>"sandbox"]);
         Genre::create(["name"=>"survival"]);
         Genre::create(["name"=>"RPG"]);
+
+        Game::factory(1000)->create();
 
         User::factory()->create([
             'name' => 'Test User',
