@@ -8,7 +8,7 @@
 <body>
 <div class="container">
 
-    @include("layout.header")
+    @include("layouts.header")
 
     <div>
         <div style="width:700px; height:400px;" class="m-auto border">
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    @include("layout.footer")
+    @include("layouts.footer")
 
 </div>
 

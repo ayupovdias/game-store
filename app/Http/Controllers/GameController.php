@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use App\Models\Genre;
 class GameController extends Controller
 {
     /**
@@ -20,7 +21,8 @@ class GameController extends Controller
      */
     public function create()
     {
-        return view("games.create");
+        $genres=Genre::all();
+        return view("games.create")->with("genres", $genres);
     }
 
     /**
@@ -29,19 +31,19 @@ class GameController extends Controller
     public function store(Request $request)
     {
          $request->validate([
-            'title'=>['required','max:255'],
-            'description'=>['required'],
-            'genres'=>['required', 'max:255'],
+            'title'=>['required','min:3','max:255'],
+            'description'=>['required','min:3'],
             'price'=>['required', 'numeric'],
-         ]);
+             'genre_id'=>['integer']
+ ]);
          Game::create([
              'title'=>$request->input('title'),
              'description'=>$request->input('description'),
-             'genres'=>$request->input('genres'),
+             'genre_id'=>$request->input('genre_id'),
              'price'=>$request->input('price'),
          ]);
 
-         return redirect()->route("games.index");
+         return redirect()->route("games.index")->with("created", "The game was created successfully");
     }
 
     /**

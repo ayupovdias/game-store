@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('games', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 255);
-            $table->text('description');
-            $table->integer('price');
-            $table->foreignId("user_id")->nullable()->constrained();
-            $table->timestamps();
+        Schema::table('games', function (Blueprint $table) {
+            $table->foreignId("genre_id")->constrained();
         });
     }
 
@@ -26,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('games');
+        Schema::table('games', function (Blueprint $table) {
+            $table->dropForeign(['genre_id']);
+            $table->dropColumn("genre_id");
+        });
     }
 };
