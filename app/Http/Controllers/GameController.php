@@ -12,7 +12,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games=Game::all();
+        $games=Game::with("genre")->get();
         return view("games.index", compact("games"));
     }
 
@@ -34,7 +34,7 @@ class GameController extends Controller
             'title'=>['required','min:3','max:255'],
             'description'=>['required','min:3'],
             'price'=>['required', 'numeric'],
-             'genre_id'=>['integer']
+             'genre_id'=>['integer','exists:genres,id']
  ]);
          Game::create([
              'title'=>$request->input('title'),
@@ -49,32 +49,46 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Game $game)
     {
-        //
+        return view("games.show")->with("game",$game);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Game $game)
     {
-        //
+        $genres=Genre::all();
+        return view("games.edit")->with(["game"=>$game, "genres"=>$genres]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Game $game)
     {
-        //
+        $request->validate([
+           "title"=>"required|min:3|max:255",
+           "description"=>"required|min:3",
+           "price"=>"required|numeric",
+           "genre_id"=>"integer|exists:genres,id"
+        ]);
+        $game->update([
+            "title"=>$request->input("title"),
+            "description"=>$request->input("description"),
+            "price"=>$request->input("price"),
+            "genre_id"=>$request->input("genre_id")
+        ]);
+        return redirect()->route("games.show",$game->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Game $game)
     {
-        //
+        $game->delete();
+        return redirect()->route("games.index");
     }
 }

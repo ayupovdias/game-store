@@ -1,4 +1,4 @@
-@extends("layouts.yeild")
+@extends("layouts.yield")
 @section("title", "Add a new page")
 @section("content")
     <form method="post" action="{{route('games.store')}}" class="w-50 mx-auto border rounded-5 mt-5 p-3">
@@ -10,9 +10,9 @@
 
         @endif
         <div class="row">
-        <label class="label-control">Title
-            <input class="form-control my-1" name="title">
-        </label>
+            <label class="label-control">Title
+                <input class="form-control my-1" name="title">
+            </label>
         </div>
         @if($errors->has("description"))
 
@@ -30,9 +30,9 @@
         <div class="row">
             <label class="label-control">Genre
                 <select class="form-control" name="genre_id">
-                @foreach($genres as $genre)
-                   <option value="{{$genre->id}}">{{$genre->name}}</option>
-                @endforeach
+                    @foreach($genres as $genre)
+                        <option value="{{$genre->id}}">{{$genre->name}}</option>
+                    @endforeach
                 </select>
             </label>
         </div>
