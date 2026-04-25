@@ -22,7 +22,7 @@ class GameController extends Controller
     public function create()
     {
         $genres=Genre::all();
-        return view("games.create")->with("genres", $genres);
+        return view("games.create")->with("genres", $genres)->with("created","The game was created successfully");
     }
 
     /**
@@ -80,7 +80,7 @@ class GameController extends Controller
             "price"=>$request->input("price"),
             "genre_id"=>$request->input("genre_id")
         ]);
-        return redirect()->route("games.show",$game->id);
+        return redirect()->route("games.show",$game->id)->with("updated","The game was updated successfully");
     }
 
     /**
@@ -89,6 +89,6 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         $game->delete();
-        return redirect()->route("games.index");
+        return redirect()->route("games.index")->with("deleted", "The game was deleted successfully");
     }
 }

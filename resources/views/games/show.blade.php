@@ -7,6 +7,10 @@
 
 @section("content")
     @include("layouts.header")
+    @if(session()->has('updated'))
+        <div class="alert alert-warning">{{session()->get('updated')}}</div>
+    @endif
+    <div></div>
 <div class="row">
     <div class="col-1 fw-bold">
         Id

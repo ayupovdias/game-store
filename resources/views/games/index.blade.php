@@ -4,6 +4,12 @@
     @include("layouts.header")
 
     <div class="m-3">
+        @if(session()->has("created"))
+            <div class="alert alert-success">{{session()->get("created")}}</div>
+        @endif
+        @if(session()->has("deleted"))
+           <div class="alert alert-danger">{{session()->get("deleted")}}</div>
+        @endif
         <!-- <img src="images/poster.png" class="w-25 h-50">
          <button style="margin-top:-450px" class="btn btn-outline-danger x">X</button>-->
         <div>
