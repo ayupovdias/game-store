@@ -1,40 +1,29 @@
 <?php
 
+use App\Http\Controllers\Auth\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GameController;
+use App\Http\Controllers\Auth\Controllers\GameController;
 
 Route::get('/', function () {
-     return redirect()->route('games.index');
-})->name('home');
+    return view('welcome');
+});
+Route::get("/statistics",function(){
+    return view('statistics')->name('statistics');
+});
+Route::get("/news", function(){
+    return view("news")->name('news');
+});
 
-Route::get('/news', function () {
-    return view('news');
-})->name('news');
+Route::resource('games',GameController::class);
 
-Route::get('/statistics', function () {
-    return view('statistics');
-})->name('statistics');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-
-Route::post('/login', function () {
-    $admin = "dias";
-    $password = "password";
-    if (request('login') == $admin && request('password') == $password) {
-        return view('success');
-    } else {
-        return view('unsuccess');
-    }
-})->name("login.post");
-
-Route::get("/user/{id}/{name?}", function($id, $name="Dias"){
-    return "Your id is $id and your name is $name";
-})->name("userData")->where(['id'=>'[0-9]+','name'=>'[a-zA-Z]+']);
-
-Route::resource("games", GameController::class);
+require __DIR__.'/auth.php';
