@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth\Controllers;
+namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Genre;
@@ -52,7 +52,8 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-        return view("games.show")->with("game",$game);
+        $comments=$game->comments()->with("user")->get();
+        return view("games.show")->with(["game"=>$game,"comments"=>$comments]);
     }
 
     /**

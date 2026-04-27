@@ -40,7 +40,7 @@
                                 href="{{route('games.edit',$game->id)}}">
                                 Edit
                             </a>
-                            <form class="d-inline" action="{{route('games.destroy', $game->id)}}" method="post">
+                            <form class="d-inline" action="{{route('games.destroy', $game->id)}}" method="post" onsubmit="return agreement()">
                                 @method("DELETE")
                                 @csrf
                             <input type="submit" value="Delete" class="btn btn-danger">
@@ -52,6 +52,11 @@
         </div>
     </div>
     @include("layouts.footer")
+@endsection
+@section("script")
+function agreement(){
+    return confirm("Are you sure you want to delete this game?")
+}
 @endsection
 <!--<script>
     $(document).ready(function () {
