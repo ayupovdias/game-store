@@ -5,6 +5,10 @@
     <a href="{{ route('statistics') }}" class="ms-3 text-decoration-none">Statistics</a>
     <a href="{{ route('news') }}" class="ms-3 text-decoration-none">News</a>
     <a href="{{route('games.create')}}" class="ms-3 text-decoration-none">Add a game</a>
+    <form class="d-inline" action="{{route('logout')}}" method="POST">
+        @csrf
+        <button class="ms-3 border border-light bg-body-tertiary text-primary">Logout</button>
+    </form>
     <nav class="navbar bg-body-tertiary w-25 d-inline-block float-end">
         <div class="container-fluid">
             <form class="d-flex" role="search">

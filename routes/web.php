@@ -4,6 +4,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Admin\GameController as AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,8 +16,18 @@ Route::get("/news", function(){
     return view("news");
 })->name("news");
 
-Route::resource('games',GameController::class);
-Route::resource('comments', CommentController::class)->middleware("auth");
+Route::group(["middleware"=>"auth"], function(){
+    Route::resource("games", GameController::class)->except("index", "show");
+    Route::resource("comments", CommentCOntroller::class);
+
+    Route::group(["middleware"=>"isAdmin", "prefix"=>"admin", "as"=>"admin."],
+        function(){
+            Route::resource("games",AdminController::class);
+    });
+});
+
+
+Route::resource('games', GameController::class)->only(["show", "index"]);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

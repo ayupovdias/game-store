@@ -3,23 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
-$adminRole=Role::create(['name'=>'admin']);
-$userRole=Role::create(['name'=>'user']);
-$developerRole=Role::create(['name'=>'developer']);
+class Role extends Model
+{
+    protected $fillable=['name'];
 
-$adminRole->GivePermissionTo(Permission::all());
+    public const ADMIN=1;
+    public const DEVELOPER=2;
+    public const JOURNALIST=3;
+    public const USER=4;
 
-$userRole->GivePermissionTo([
-    'publish games'
-]);
-
-$developerRole->GivePermissionTo([
-    'create games',
-    'edit games',
-    'delete games',
-    'publish games'
-]);
-
+    public function users(){
+        return $this->hasMany(User::class);
+    }
+}
