@@ -10,21 +10,31 @@
 
     @include("layouts.header")
 
-    <div>
-        <div style="width:700px; height:400px;" class="m-auto border">
-            <canvas id="bar"></canvas>
+    <div class="row mt-4 g-4">
+        <div class="col-12 col-lg-6">
+            <div class="border p-3 rounded h-100">
+                <canvas id="bar"></canvas>
+            </div>
         </div>
-        <div style="width:700px; height:400px;" class="m-auto border">
-            <canvas id="pie"></canvas>
+        <div class="col-12 col-lg-6">
+            <div class="border p-3 rounded h-100">
+                <canvas id="pie"></canvas>
+            </div>
         </div>
-        <div style="width:700px; height:400px;" class="m-auto border">
-            <canvas id="doughnut"></canvas>
+        <div class="col-12 col-lg-6">
+            <div class="border p-3 rounded h-100">
+                <canvas id="doughnut"></canvas>
+            </div>
         </div>
-        <div style="width:700px; height:400px;" class="m-auto border">
-            <canvas id="polarArea"></canvas>
+        <div class="col-12 col-lg-6">
+            <div class="border p-3 rounded h-100">
+                <canvas id="polarArea"></canvas>
+            </div>
         </div>
-        <div style="width:700px; height:400px;" class="m-auto border">
-            <canvas id="line"></canvas>
+        <div class="col-12">
+            <div class="border p-3 rounded">
+                <canvas id="line"></canvas>
+            </div>
         </div>
     </div>
 

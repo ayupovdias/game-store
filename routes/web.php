@@ -11,12 +11,12 @@ Route::get('/', function () {
 });
 Route::get("/statistics",function(){
     return view("statistics");
-})->name("statistics");
+})->middleware(["changeLocale"])->name("statistics");
 Route::get("/news", function(){
     return view("news");
-})->name("news");
+})->middleware(["changeLocale"])->name("news");
 
-Route::group(["middleware"=>"auth"], function(){
+Route::group(["middleware"=>["auth", "changeLocale"]], function(){
     Route::resource("games", GameController::class)->except("index", "show");
     Route::resource("comments", CommentCOntroller::class);
 
@@ -27,7 +27,7 @@ Route::group(["middleware"=>"auth"], function(){
 });
 
 
-Route::resource('games', GameController::class)->only(["show", "index"]);
+Route::resource('games', GameController::class)->only(["show", "index"])->middleware(["changeLocale"]);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

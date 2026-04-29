@@ -21,4 +21,8 @@ class CommentController
         $comment->save();
         return back()->with("created", "A new comment was created successfully");
     }
+    public function destroy(Comment $comment){
+        $comment->delete();
+        return back()->with("deleted", "The comment was deleted successfully");
+    }
 }

@@ -73,16 +73,16 @@
 <p>When I first laid eyes on Pokémon Pokopia and its derpy-faced Ditto protagonist, I was charmed from the get-go. I enjoyed what I played of the Dragon Quest Builders games and had fun with Animal Crossing: New Horizons, so a Pokémon-themed amalgamation of those experiences sounded super appealing. Plus, again, the premise of a Ditto masquerading as a barely passable human is delightfully stupid. I’m still very early in the game, but I’m drawn to its low-key post-apocalyptic world (humanity is dead missing!), and I can already feel its cozy hooks digging into me as my to-do list starts to populate. Plus, with the real world seemingly falling apart in various ways, it feels good to put a different one back together. The lesson: be the Ditto that copies the person you want to see in this world.</p>";
 
 
-    echo "<div class='w-75 m-auto'>";
+    echo "<div class='row mt-4'><div class='col-12 col-md-10 col-lg-8 mx-auto'>";
     for ($i = 0; $i < count($news); $i++) {
-        echo "<h2 class='text-center'>" . $news[$i]["title"] . "</h2>" . "<br>";
-        echo "<p class='fs-5 text-center fw-bold'>Date: " . $news[$i]["date"] . "<br>" . "Author: " . $news[$i]['author'] . "</p>" . "<br>";
+        echo "<h2 class='text-center'>" . $news[$i]["title"] . "</h2>";
+        echo "<p class='fs-6 text-center fw-bold text-muted'>Date: " . $news[$i]["date"] . " | Author: " . $news[$i]['author'] . "</p>";
         $picture = $news[$i]["image"];
-        echo "<img src=$picture class='w-100'>";
-        echo "<span class='fs-5'>" . $news[$i]["content"] . "</span>" . "<br>";
-        echo "<hr>";
+        echo "<img src='$picture' class='img-fluid rounded mb-3'>";
+        echo "<div class='fs-5'>" . $news[$i]["content"] . "</div>";
+        echo "<hr class='my-5'>";
     }
-    echo "</div>";
+    echo "</div></div>";
     ?>
     @include("layouts.footer")
 
