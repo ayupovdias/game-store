@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         Genre::create(["name"=>"RPG"]);
         Genre::create(["name"=>"strategy"]);
 
-        Game::factory(25)->create();
 
         Role::create(["name"=>"ADMIN"]);
         Role::create(["name"=>"DEVELOPER"]);

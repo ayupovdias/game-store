@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('description');
             $table->integer('price');
-            $table->foreignId("user_id")->nullable()->constrained();
+            $table->foreignId("user_id")->constrained();
             $table->timestamps();
         });
     }

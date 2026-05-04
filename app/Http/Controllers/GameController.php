@@ -22,6 +22,7 @@ class GameController extends Controller
      */
     public function create()
     {
+        $this->authorize("create", Game::class);
         $genres=Genre::all();
         return view("games.create")->with("genres", $genres)->with("created","The game was created successfully");
     }
@@ -31,6 +32,7 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize("create", Game::class);
          $request->validate([
             'title'=>['required','min:3','max:255'],
             'description'=>['required','min:3'],
@@ -42,6 +44,7 @@ class GameController extends Controller
              'description'=>$request->input('description'),
              'genre_id'=>$request->input('genre_id'),
              'price'=>$request->input('price'),
+             'user_id'=>auth()->id()
          ]);
 
          return redirect()->route("games.index")->with("created", "The game was created successfully");
@@ -61,6 +64,7 @@ class GameController extends Controller
      */
     public function edit(Game $game)
     {
+        $this->authorize("update", $game);
         $genres=Genre::all();
         return view("games.edit")->with(["game"=>$game, "genres"=>$genres]);
     }
@@ -70,6 +74,7 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game)
     {
+        $this->authorize("update", $game);
         $request->validate([
            "title"=>"required|min:3|max:255",
            "description"=>"required|min:3",
@@ -90,6 +95,7 @@ class GameController extends Controller
      */
     public function destroy(Game $game)
     {
+        $this->authorize("delete", $game);
         $game->delete();
         return redirect()->route("games.index")->with("deleted", "The game was deleted successfully");
     }

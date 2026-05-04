@@ -6,7 +6,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController
+class CommentController extends Controller
 {
     public function store(Request $request){
         $request->validate([
@@ -22,6 +22,7 @@ class CommentController
         return back()->with("created", "A new comment was created successfully");
     }
     public function destroy(Comment $comment){
+        $this->authorize('delete', $comment);
         $comment->delete();
         return back()->with("deleted", "The comment was deleted successfully");
     }

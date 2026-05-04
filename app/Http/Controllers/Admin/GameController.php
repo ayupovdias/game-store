@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Game;
 class GameController extends Controller
 {
     /**
@@ -12,7 +12,8 @@ class GameController extends Controller
      */
     public function index()
     {
-        dd("ADMIN panel");
+        $games=Game::with("user", "genre")->get();
+        return view("admin.games.index", compact("games"));
     }
 
     /**

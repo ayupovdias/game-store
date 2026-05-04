@@ -12,7 +12,7 @@ use App\Models\Comment;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -53,5 +53,8 @@ class User extends Authenticatable
     }
     public function role(){
         return $this->belongsTo(Role::class);
+    }
+    public function games(){
+        return $this->hasMany(Game::class);
     }
 }

@@ -33,13 +33,17 @@
                         <div class="col-6 col-lg-1 mb-3 mb-lg-0 fw-bold text-success text-end text-lg-start">${{$game->price}}</div>
 
                         <div class="col-12 col-lg-4 d-flex flex-wrap gap-2 justify-content-lg-center">
-                            <a class="btn btn-sm btn-primary flex-fill flex-lg-grow-0" href="{{route('games.show',[$game->id,'changelocale='.app()->getLocale()])}}">{{__('game.more_details')}}</a>
-                            <a class="btn btn-sm btn-warning flex-fill flex-lg-grow-0" href="{{route('games.edit',[$game->id,'changelocale='.app()->getLocale()])}}">{{__('game.edit')}}</a>
+                            <a class="btn btn-sm btn-primary flex-fill flex-lg-grow-0" href="{{route('games.show',$game->id)}}">{{__('game.more_details')}}</a>
+                            @can("update",$game)
+                            <a class="btn btn-sm btn-warning flex-fill flex-lg-grow-0" href="{{route('games.edit',$game->id)}}">{{__('game.edit')}}</a>
+                            @endcan
+                            @can("delete", $game)
                             <form class="d-inline flex-fill flex-lg-grow-0" action="{{route('games.destroy', $game->id)}}" method="post" onsubmit="return agreement()">
                                 @method("DELETE")
                                 @csrf
                                 <input type="submit" value="{{__("game.delete")}}" class="btn btn-sm btn-danger w-100">
                             </form>
+                            @endcan
                         </div>
                     </div>
                 @endforeach

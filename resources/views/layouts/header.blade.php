@@ -11,9 +11,14 @@
                 <a href="{{ route('statistics','changelocale='.app()->getLocale()) }}" class="nav-link">{{__("header.statistics")}}</a>
                 <a href="{{ route('news') }}" class="nav-link">{{__('header.news')}}</a>
                 @auth
+                    @can("create", \App\Models\Game::class)
                     <a href="{{route('games.create','changelocale='.app()->getLocale())}}" class="nav-link">{{__("header.create_game")}}</a>
+                    @endcan
                     <a href="{{route('dashboard')}}" class="nav-link">{{__("header.dashboard")}}</a>
                     <a href="{{route('profile.edit','changelocale='.app()->getLocale())}}" class="nav-link">{{__("header.profile")}}</a>
+                    @if(auth()->user()->role_id==\App\Models\Role::ADMIN)
+                        <a href="{{route('admin.games.index')}}" class="nav-link">Admin Panel</a>
+                    @endif
                 @endauth
             </div>
 

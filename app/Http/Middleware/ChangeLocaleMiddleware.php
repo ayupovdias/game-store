@@ -16,8 +16,8 @@ class ChangeLocaleMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if($request->has('changelocale')){
-            $loc=$request->input('changelocale');
-            app()->setLocale($loc);
+           $loc=$request->input('changelocale');
+           app()->setLocale($loc);
         }
         return $next($request);
     }

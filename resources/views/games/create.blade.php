@@ -6,7 +6,6 @@
             <form method="post" action="{{route('games.store')}}" class="border rounded-4 p-4 shadow-sm bg-body-tertiary">
                 <h3 class="fw-bold text-center mb-4">Create a game</h3>
                 @csrf
-
                 @if($errors->has('title'))
                     <div class="alert alert-danger">{{$errors->first()}}</div>
                 @endif
