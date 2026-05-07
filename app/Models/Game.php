@@ -9,7 +9,7 @@ use App\Models\Comment;
 class Game extends Model
 {
     use HasFactory;
-    protected $fillable=['title','description', 'price','genre_id', 'user_id'];
+    protected $fillable=['title','description', 'price','genre_id', 'user_id', 'image'];
 
     public function genre(){
         return $this->belongsTo(Genre::class);

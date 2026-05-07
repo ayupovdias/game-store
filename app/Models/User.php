@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'role_id',
         'password',
+        'price',
     ];
 
     /**
@@ -56,5 +57,8 @@ class User extends Authenticatable
     }
     public function games(){
         return $this->hasMany(Game::class);
+    }
+    public function news(){
+        return $this->hasMany(News::class);
     }
 }

@@ -18,12 +18,31 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        Genre::create(["name"=>"fiction"]);
-        Genre::create(["name"=>"fantasy"]);
-        Genre::create(["name"=>"sandbox"]);
-        Genre::create(["name"=>"RPG"]);
-        Genre::create(["name"=>"strategy"]);
-
+        $genres = [
+            "Action",
+            "Adventure",
+            "Action-Adventure",
+            "Role-Playing (RPG)",
+            "Strategy",
+            "Simulation",
+            "Sandbox",
+            "Open World",
+            "Shooter",
+            "First-Person Shooter (FPS)",
+            "Third-Person Shooter",
+            "Survival",
+            "Horror",
+            "Puzzle",
+            "Platformer",
+            "Racing",
+            "Sports",
+            "Fighting",
+            "Roguelike",
+            "Casual"
+        ];
+        foreach ($genres as $genre) {
+            Genre::create(['name' => $genre]);
+        }
 
         Role::create(["name"=>"ADMIN"]);
         Role::create(["name"=>"DEVELOPER"]);

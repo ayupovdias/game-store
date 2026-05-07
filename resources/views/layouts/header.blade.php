@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg mt-3 p-3 position-relative bg-body-tertiary rounded">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="#">Game Store</a>
+        <a class="navbar-brand fw-bold" href="{{route('games.index')}}">Game Store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,10 +9,13 @@
             <div class="navbar-nav me-auto mb-2 mb-lg-0">
                 <a href="{{ route('games.index','changelocale='.app()->getLocale()) }}" class="nav-link">{{__('header.home_page')}}</a>
                 <a href="{{ route('statistics','changelocale='.app()->getLocale()) }}" class="nav-link">{{__("header.statistics")}}</a>
-                <a href="{{ route('news') }}" class="nav-link">{{__('header.news')}}</a>
+                <a href="{{ route('news.index') }}" class="nav-link">{{__('header.news')}}</a>
                 @auth
                     @can("create", \App\Models\Game::class)
                     <a href="{{route('games.create','changelocale='.app()->getLocale())}}" class="nav-link">{{__("header.create_game")}}</a>
+                    @endcan
+                    @can("create", \App\Models\News::class)
+                        <a href="{{route('news.create')}}" class="nav-link">Create news</a>
                     @endcan
                     <a href="{{route('dashboard')}}" class="nav-link">{{__("header.dashboard")}}</a>
                     <a href="{{route('profile.edit','changelocale='.app()->getLocale())}}" class="nav-link">{{__("header.profile")}}</a>
@@ -33,6 +36,15 @@
                     <a href="{{route('login')}}" class="btn btn-outline-primary btn-sm">{{__('header.login')}}</a>
                     <a href="{{route('register')}}" class="btn btn-primary btn-sm">{{__('header.register')}}</a>
                 @endguest
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">Select a genre</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="{{route('games.index')}}">All genres</a></li>
+                             @foreach($genres as $genre)
+                                 <li><a class="dropdown-item" href="{{route('games.genre.genre', $genre->id)}}">{{$genre->name}}</a></li>
+                             @endforeach
+                        </ul>
+                    </div>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{strtoupper(app()->getLocale())}}

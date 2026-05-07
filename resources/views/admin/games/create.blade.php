@@ -1,9 +1,9 @@
-@extends("layouts.yield")
+@extends("admin.layouts.yield")
 @section("title", "Add a new page")
 @section("content")
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6 mx-auto mt-5">
-            <form method="post" action="{{route('games.store')}}" class="border rounded-4 p-4 shadow-sm bg-body-tertiary" enctype="multipart/form-data">
+            <form method="post" action="{{route('admin.games.store')}}" class="border rounded-4 p-4 shadow-sm bg-body-tertiary" enctype="multipart/form-data">
                 <h3 class="fw-bold text-center mb-4">Create a game</h3>
                 @csrf
                 @if($errors->has('title'))
@@ -55,7 +55,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <button class="btn btn-success">{{__("game.create")}}</button>
-                    <a href="{{route('games.index')}}" class="btn btn-secondary">{{__("game.back")}}</a>
+                    <a href="{{route('admin.games.index')}}" class="btn btn-secondary">{{__("game.back")}}</a>
                 </div>
             </form>
         </div>

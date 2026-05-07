@@ -13,8 +13,9 @@ class GameController extends Controller
      */
     public function index()
     {
+        $genres=Genre::all();
         $games=Game::with("genre")->get();
-        return view("games.index", compact("games"));
+        return view("games.index", compact("games", "genres"));
     }
 
     /**
@@ -37,14 +38,21 @@ class GameController extends Controller
             'title'=>['required','min:3','max:255'],
             'description'=>['required','min:3'],
             'price'=>['required', 'numeric'],
-             'genre_id'=>['integer','exists:genres,id']
+             'genre_id'=>['integer','exists:genres,id'],
+             'image'=>['mimes:png,gif,jpeg,jpg,webp']
  ]);
+         $fileName="default.png";
+         if($request->hasFile("image")){
+             $fileName=$request->file("image")->getClientOriginalName();
+             $request->file("image")->storeAs("images/games",$fileName, "public");
+         }
          Game::create([
              'title'=>$request->input('title'),
              'description'=>$request->input('description'),
              'genre_id'=>$request->input('genre_id'),
              'price'=>$request->input('price'),
-             'user_id'=>auth()->id()
+             'user_id'=>auth()->id(),
+             'image'=>$fileName
          ]);
 
          return redirect()->route("games.index")->with("created", "The game was created successfully");
@@ -55,8 +63,9 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
+        $genres=Genre::all();
         $comments=$game->comments()->with("user")->get();
-        return view("games.show")->with(["game"=>$game,"comments"=>$comments]);
+        return view("games.show")->with(["game"=>$game,"comments"=>$comments,"genres"=>$genres]);
     }
 
     /**
@@ -79,13 +88,20 @@ class GameController extends Controller
            "title"=>"required|min:3|max:255",
            "description"=>"required|min:3",
            "price"=>"required|numeric",
-           "genre_id"=>"integer|exists:genres,id"
+           "genre_id"=>"integer|exists:genres,id",
+            "image'=>'mimes:png,gif,jpeg,jpg,webp"
         ]);
+        $fileName=$game->image;
+        if($request->hasFile("image")){
+            $fileName=$request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs("images/news", $fileName, "public");
+        }
         $game->update([
             "title"=>$request->input("title"),
             "description"=>$request->input("description"),
             "price"=>$request->input("price"),
-            "genre_id"=>$request->input("genre_id")
+            "genre_id"=>$request->input("genre_id"),
+            "image"=>$fileName,
         ]);
         return redirect()->route("games.show",$game->id)->with("updated","The game was updated successfully");
     }
@@ -98,5 +114,10 @@ class GameController extends Controller
         $this->authorize("delete", $game);
         $game->delete();
         return redirect()->route("games.index")->with("deleted", "The game was deleted successfully");
+    }
+    public function byGenre(Genre $genre){
+        $genres=Genre::all();
+        $games=$genre->games;
+        return view('games.index', compact("games", "genres"));
     }
 }

@@ -47,7 +47,14 @@
                         <input class="form-control mt-1" value="{{$game->price}}" name="price">
                     </label>
                 </div>
-
+                @if($errors->has("image"))
+                    <div class="alert alert-danger">{{$errors->first("image")}}</div>
+                @endif
+                <div class="row mb-2">
+                <label class="label-control">Select an image
+                    <input type="file" class="form-control" name="image" value="{{$game->image}}">
+                </label>
+                </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <button class="btn btn-warning">{{__("game.update")}}</button>
                     <a class="btn btn-secondary" href="{{route('games.index')}}">{{__("game.back")}}</a>
